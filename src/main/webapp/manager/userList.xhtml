@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nature="http://nature.com/faces"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<title>user 管理</title>
+</h:head>
+<h:body>
+	<h:form>
+	<h:panelGrid columns="4">
+
+			<h:column>
+				<h:outputLabel for="userNameId" value="账号:" />
+			</h:column>
+			<h:column>
+				<p:inputText id="userNameId"  >
+					  <nature:restriction property="userName"  type="like"  /> 
+				</p:inputText>
+			</h:column>
+
+			
+		</h:panelGrid>
+		<br />
+
+		<p:commandButton value="查询"  process="@form"
+			update="userTableId" >
+					<nature:restrictionCollector addTo="#{userQuery.lazyDataModelImpl}"  debug="true" />
+			</p:commandButton>
+			
+		<p:button  outcome="userEdit.xhtml" value="编辑" />
+		<p:link outcome="userEdit.xhtml" value="添加" />
+		<br />
+		
+		<p:dataTable id="userTableId" emptyMessage="暂无相关信息" lazy="true"
+			draggableColumns="true" rows="10" paginator="true"
+			paginatorPosition="bottom"
+			currentPageReportTemplate="查询到{totalRecords}条记录，本页显示{startRecord}～{endRecord}；第{currentPage}/{totalPages}页"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="20,50,100" style="width:100%;"
+			value="#{userQuery.lazyDataModelImpl}" var="_user" rowIndexVar="rowIdx">
+
+			<p:column styleClass="center-column" width="10%">
+				<f:facet name="header">序号</f:facet>
+				<h:outputText value="#{rowIdx + 1}" />
+			</p:column>
+
+
+			<p:column width="15">
+				<f:facet name="header">账号名称</f:facet>
+				<h:outputText value="#{_user.userName}" />
+			</p:column>
+
+			<p:column width="15">
+				<f:facet name="header">姓</f:facet>
+				<h:outputText value="#{_user.lastName}" />
+			</p:column>
+
+			
+		</p:dataTable>
+
+	</h:form>
+
+</h:body>
+</html>
